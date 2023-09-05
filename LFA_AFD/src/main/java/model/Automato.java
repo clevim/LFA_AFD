@@ -22,7 +22,16 @@ public class Automato {
         this.endStates = new ArrayList<>();
         this.word = "";
         this.initialState = 0;
+        
+        this.endStates.add(0);
+        this.endStates.add(1);
+        this.endStates.add(2);
         this.endStates.add(3);
+        this.endStates.add(4);
+        this.endStates.add(5);
+        this.endStates.add(6);
+        this.endStates.add(7);
+        
         this.matriz = new Transicao(fileName);
 
     }
