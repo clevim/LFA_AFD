@@ -19,7 +19,7 @@ import java.util.Stack;
  */
 public class Automato {
 
-     private TransicaoPilha[][] matriz;
+    private TransicaoPilha[][] matriz;
     private int numStates;
     private int numSymbols;
     private int startState;
@@ -30,15 +30,15 @@ public class Automato {
         this.numSymbols = numSymbols;
         this.startState = startState;
         this.acceptStates = acceptStates;
-        this.matriz = new TransicaoPilha[numStates][numSymbols + 1]; // +1 for epsilon transitions
+        this.matriz = new TransicaoPilha[numStates][numSymbols + 1]; // +1 do Z||Epsilon||Vazio
     }
-    
+
     public int charToIndex(char c) {
-   if (c == 'Z') {
-        return this.matriz[0].length - 1; // Epsilon transitions are at the last index
+        if (c == 'Z') {
+            return this.matriz[0].length - 1; // Epsilon transitions are at the last index
+        }
+        return c - 'a';
     }
-    return c - 'a';
-}
 
     public void loadMatriz(String fileName) {
         try {
@@ -61,9 +61,9 @@ public class Automato {
     }
 
     public boolean validateWord(String word) {
-      int currentState = startState;
+        int currentState = startState;
         Stack<String> stack = new Stack<>();
-        stack.push("Z"); // Push the bottom of stack symbol onto the stack
+        stack.push("Z"); // Inicia a pilha com Z...base da pilha
 
         for (char inputSymbol : word.toCharArray()) {
             int index = charToIndex(inputSymbol);
@@ -73,34 +73,32 @@ public class Automato {
             }
 
             currentState = transition.getEstadoDestino();
-          if (!transition.getDesempilhar().equals("Z")) {
-            stack.pop();
-          }
-        
+            if (!transition.getDesempilhar().equals("Z")) {
+                stack.pop();
+            }
+
             if (!transition.getEmpilhar().equals("Z")) {
                 for (int i = transition.getEmpilhar().length() - 1; i >= 0; i--) {
                     stack.push(String.valueOf(transition.getEmpilhar().charAt(i)));
                 }
             }
-        }
 
-        // Process epsilon transitions
-        TransicaoPilha epsilonTransition = this.matriz[currentState][this.matriz[0].length - 1]; 
-        while (epsilonTransition != null && !stack.isEmpty() && stack.peek().equals(epsilonTransition.getDesempilhar())) {
-            currentState = epsilonTransition.getEstadoDestino();
-             if (!epsilonTransition.getDesempilhar().equals("Z")) {
-            stack.pop();
-          }
-            if (!epsilonTransition.getEmpilhar().equals("Z")) {
-                for (int i = epsilonTransition.getEmpilhar().length() - 1; i >= 0; i--) {
-                    stack.push(String.valueOf(epsilonTransition.getEmpilhar().charAt(i)));
+            // Process epsilon transitions
+            TransicaoPilha epsilonTransition = this.matriz[currentState][this.matriz[0].length - 1];
+            while (epsilonTransition != null && !stack.isEmpty() && stack.peek().equals(epsilonTransition.getDesempilhar())) {
+                currentState = epsilonTransition.getEstadoDestino();
+                if (!epsilonTransition.getDesempilhar().equals("Z")) {
+                    stack.pop();
                 }
+                if (!epsilonTransition.getEmpilhar().equals("Z")) {
+                    for (int i = epsilonTransition.getEmpilhar().length() - 1; i >= 0; i--) {
+                        stack.push(String.valueOf(epsilonTransition.getEmpilhar().charAt(i)));
+                    }
+                }
+                epsilonTransition = this.matriz[currentState][this.matriz[0].length - 1];
             }
-            epsilonTransition = this.matriz[currentState][this.matriz[0].length - 1]; 
         }
 
         return acceptStates.contains(currentState) && (stack.isEmpty() || stack.peek().equals("Z"));
     }
 }
-
-

@@ -34,7 +34,7 @@ public class Pilha {
         return this.pilha.isEmpty();
     }
 
-    public void clear() {
+    public void limpar() {
         this.pilha.clear();
     }
     
