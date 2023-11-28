@@ -35,7 +35,7 @@ public class Automato {
 
     public int charToIndex(char c) {
         if (c == 'Z') {
-            return this.matriz[0].length - 1; // Epsilon transitions are at the last index
+            return this.matriz[0].length - 1; 
         }
         return c - 'a';
     }
@@ -83,7 +83,7 @@ public class Automato {
                 }
             }
 
-            // Process epsilon transitions
+            // Segurança
             TransicaoPilha epsilonTransition = this.matriz[currentState][this.matriz[0].length - 1];
             while (epsilonTransition != null && !stack.isEmpty() && stack.peek().equals(epsilonTransition.getDesempilhar())) {
                 currentState = epsilonTransition.getEstadoDestino();

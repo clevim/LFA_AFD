@@ -15,6 +15,13 @@ import model.Automato;
  * @author clevs
  */
 public class LFA_AFD {
+    
+//                                    Arquivo TXT
+//         EstadoOrigem,Letra,EstadoDestino,Desempilhar,Empilhar   
+//    
+//                                        main
+//    Automato(Numero de estados,Numero de simbolos,Estado Inicial,Estados Finais)
+    
 
     public static void main(String[] args) {
         //Autômato com 4 estados, 2 símbolos ('a' e 'b'), estado inicial 0 e estado de aceitação|final 3.
@@ -70,17 +77,6 @@ public class LFA_AFD {
         System.out.println("A Palavra " + word4 + " é " + (result4 ? "aceito" : "não aceito") + " pelo automato.");
         
         
-        //Autômato com 3 estados, 3 símbolos ('a' , 'b' e  'c'), estado inicial 0 e estado de aceitação|final 1,2.
-        Set<Integer> acceptStates5 = new HashSet<>();
-        acceptStates5.add(4);
-        acceptStates5.add(2);
-        Automato automato5 = new Automato(5, 3, 0, acceptStates5);
-
-        // Load transitions from file
-        automato5.loadMatriz(System.getProperty("user.dir") + "/matrizTrans/PilhaTeste5.txt");
-
-        String word5 = "abbc";
-        boolean result5 = automato5.validateWord(word5);
-        System.out.println("A Palavra " + word5 + " é " + (result5 ? "aceito" : "não aceito") + " pelo automato.");
+       
     }
 }
